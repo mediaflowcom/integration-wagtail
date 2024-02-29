@@ -1,0 +1,22 @@
+{% load wagtailcore_tags %}
+
+  <div id="{{ value.random_element_id }}"></div>
+  <script>
+    
+    if(!document.querySelector('link[href="https://mfstatic.com/css/mediaflowplayer.min.css"]')) {
+        const lel =document.createElement('link');
+        lel.setAttribute('rel','stylesheet');
+        lel.setAttribute('type','text/css');
+        lel.setAttribute('href','https://mfstatic.com/css/mediaflowplayer.min.css');
+        document.getElementsByTagName('head')[0].appendChild(lel);
+    }
+    if(typeof(MFPlayer)=='undefined') {
+        const sel = document.createElement('script');
+        sel.setAttribute('crossorigin','anonymous');
+        document.body.appendChild(sel);
+        sel.onload=function(){
+            new MFPlayer('#{{value.random_element_id}}','{{ value.media_id }}', {"env":"production"}); 
+        };
+        sel.src='https://mfstatic.com/js/mediaflowplayer.min.js';
+    } else {
+        new MFPlayer('#{{value.random_element_id}}','{{ value.media_id }}', {"env":"production"}); }</script>

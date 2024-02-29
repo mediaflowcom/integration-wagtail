@@ -1,0 +1,6 @@
+
+<input type="{{ widget.type }}" name="{{ widget.name }}"{% if widget.value != None %} value="{{ widget.value }}"{% endif %}{% include "django/forms/widgets/attrs.html" %}>
+<button style="display:none" id="mf-insert-button" class="button" data-server-key={{ server_key }}>
+    Import from Mediaflow
+</button>
+<a hidden id="mf-use-link" data-chooser-modal-choice="" class="image-choice" href="/admin/images/chooser/chosen/"></a>
