@@ -46,18 +46,18 @@ $(document).ready(function () {
     })
   }
 
-  function startImport(downloadURL, title) {
+  function startImport(data) {
     $.ajax({
-      url: downloadURL,
+      url: data.url,
       cache: false,
       xhr: function () {
         var xhr = new XMLHttpRequest()
         xhr.responseType = 'blob'
         return xhr
       },
-      success: function (data) {
+      success: function (binaryData) {
         // TODO: How come we don't get the full filename with extension from fileselector?
-        uploadAndUse(new File([data], title + '.jpg'), title)
+        uploadAndUse(new File([binaryData], data.filename), data.name)
       },
       error: function (e) {
         console.error(e)
@@ -115,21 +115,15 @@ $(document).ready(function () {
     client_secret: 'rZpA0vP7oKOSJw3lZBX1e4EVElHsbQ',
     refresh_token: $('#mf-server-key').val(),
     showDoneButton: false,
-    limitFileType: 'jpg',
+    limitFileType: 'jpg,png,webp,gif',
     viewLayout: 'thumbnails',
     allowCrop: true,
     noCropButton: false,
     showDoneButton: true,
     locale: 'sv-se',
     downloadFormat: 'original',
-    ready: function () {},
-    success: function (o) {
-      startImport(o.url, filename)
-    },
-    events: function (eventName, eventData) {
-      if (eventName === 'fileClick') {
-        filename = eventData.name
-      }
-    },
+    success: function (responseData) {      
+      startImport(responseData);
+    },    
   })
 })
