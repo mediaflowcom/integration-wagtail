@@ -3,9 +3,9 @@ from django.forms import FileInput
 from mediaflowimage.models import MFImageAppConfig
 
 
+# This widget is used by the Image Form 'MfImageForm'
 class MedialowFileInput(FileInput):
-    template_name = "widgets/fileinput-image.html"
-
+    template_name = "widgets/mf-custom-imageinput.html"
 
     def get_context(self, name, value, attrs):
         appSettings = MFImageAppConfig.load()
@@ -13,6 +13,5 @@ class MedialowFileInput(FileInput):
         context.update({'server_key': appSettings.server_key })
         return context
 
-
     class Media:       
-        js = ["js/fileinput-image.js"]
+        js = ["js/mf-imagechooser-extensions.js"]

@@ -10,13 +10,18 @@ class MountVideoDefinition extends window.wagtailStreamField.blocks
             initialError,
         );
 
-        //console.log(in<itialState);
         
-        /*document.getElementById(prefix + '-mf-media_id').value = initialState.media_id;
+        /*
+        Not really needed anymore?
+
+        document.getElementById(prefix + '-mf-media_id').value = initialState.media_id;
         document.getElementById(prefix + '-mf-file_id').value = initialState.selected_file;
         document.getElementById(prefix + '-mf-autoplay').value = initialState.autoplay ? '1"' : '0';
         document.getElementById(prefix + '-mf-embed_method').value = initialState.embed_method;
-        document.getElementById(prefix + '-mf-start_offset').value = initialState.start_offset;        */
+        document.getElementById(prefix + '-mf-start_offset').value = initialState.start_offset;        
+        
+        */
+       
         return block;
     }
 }
