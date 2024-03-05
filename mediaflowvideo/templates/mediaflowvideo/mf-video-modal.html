@@ -37,7 +37,9 @@
         $('#{{ trigger }}-media_id').trigger('input'); 
       });
         
-      $('#mf-options').on('change', function(ev) {        
+      $('#{{ trigger }}-mf-options input').on('change', function(ev) {        
+        console.log('CHANGE!!');
+        ev.preventDefault();
         selectedData.embedMethod = $('#mf-embed_method').val();
         selectedData.startOffset = $('#mf-start_offset').val();
         selectedData.autoPlay = $('#mf-autoplay').is(':checked');
@@ -89,8 +91,7 @@
 {% endblock %}
 
 
-<form id="mf-options">
-  <div class="nice-padding">
+  <div class="nice-padding" id="{{ trigger }}-mf-options">
     
     <div class="w-field light">
       <label class="w-field__label">Select a video</label>
@@ -136,4 +137,3 @@
     </div>
 
   </div>
-</form>
