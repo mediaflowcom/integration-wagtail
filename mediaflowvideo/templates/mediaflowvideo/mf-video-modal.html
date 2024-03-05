@@ -37,7 +37,7 @@
         $('#{{ trigger }}-media_id').trigger('input'); 
       });
         
-      $('#{{ trigger }}-mf-options input').on('change', function(ev) {        
+      $('#{{ trigger }}-mf-options input, #{{ trigger }}-mf-options select').on('change', function(ev) {        
         console.log('CHANGE!!');
         ev.preventDefault();
         selectedData.embedMethod = $('#mf-embed_method').val();

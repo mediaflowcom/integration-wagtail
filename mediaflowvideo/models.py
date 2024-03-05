@@ -10,7 +10,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from wagtail.contrib.settings.models import BaseGenericSetting , register_setting
 from django.db import models
-
+import requests
 # BaseGenericSetting should be changed to BaseSiteSetting but I can't figure out how to get the current site when consuming the settings
 # JanR 2024-02-20
 @register_setting
@@ -23,13 +23,46 @@ class MFVideoAppConfig(BaseGenericSetting ):
 
 class MFVideoblockValue(StructValue):   
     def __init__(self, block, *args):                
-        self.element_id = get_random_string(length=10,allowed_chars='abcdefghijklmnopqrstuvwxyz')        
+        self.element_id = get_random_string(length=10,allowed_chars='abcdefghijklmnopqrstuvwxyz')              
         super().__init__(self,*args)
-        
+
+    # should cache?       
+    def get_poster(self):               
+        r = requests.get('https://m.mediaflow.com/json/' + self.get("media_id"), headers={'Accept': 'application/json'})
+        print("resp", r.json()["poster"])
+        return r.json()["poster"]
+
+    # should cache?       
+    def get_title(self):               
+        r = requests.get('https://m.mediaflow.com/json/' + self.get("media_id"), headers={'Accept': 'application/json'})
+        print("resp", r.json()["poster"])
+        return r.json()["title"]
+    
     @property    
     def random_element_id(self):               
         return self.element_id
 
+    @property    
+    def src(self):               
+        s_param = ""
+        m_id = self.get("media_id")
+        if self.get("autoplay"):
+            s_param = s_param + "autoplay=1&"
+        if self.get("start_offset") > 0:
+            s_param = s_param + "start=" + str(self.get("start_offset")) + "&"
+        if s_param == "":
+            return "//play.mediaflowpro.com/ovp/11/" + m_id
+        else:
+            return "//play.mediaflowpro.com/ovp/11/" + m_id + "?" + s_param[:-1]
+
+    @property    
+    def name(self):               
+        return self.get_title()
+    
+    @property    
+    def poster(self):
+        print("getting poster")               
+        return self.get_poster()
 
 
 class MfVideoBlock(StructBlock):
@@ -48,7 +81,7 @@ class MfVideoBlock(StructBlock):
         return context
 
     class Meta:
-        template = 'mediaflowvideo/mf-video-block.html'        
+        template = 'mediaflowvideo/mf-video-block.html'
         icon = "media"
         admin_text = mark_safe("<b>Image Block</b>")
         label = "Mediaflow Video Block"
