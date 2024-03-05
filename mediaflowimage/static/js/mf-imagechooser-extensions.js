@@ -121,7 +121,7 @@ $(document).ready(function () {
     noCropButton: false,
     showDoneButton: true,
     locale: 'sv-se',
-    downloadFormat: 'original',
+    downloadFormat: 'mediaflow',
     success: function (responseData) {      
       startImport(responseData);
     },    
