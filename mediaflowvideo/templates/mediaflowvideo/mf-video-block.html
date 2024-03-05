@@ -1,6 +1,6 @@
 {{ value.embed_method }}
 {% if value.embed_method == "iframe" %}
-    <div style="background:none repeat scroll 0 0 #ccc;margin:0 auto;width:100%;">
+    <div data-mf-file-id="{{value.file_id}}" style="background:none repeat scroll 0 0 #ccc;margin:0 auto;width:100%;">
         <div style="position:relative;">
             <img style="display:block;height:auto;width:100%" alt="" src="{{ value.poster }}" />
             <iframe title="{{ value.name }}" style="border:none;position:absolute;top:0;left:0;width:100%;height:100%;" 
@@ -8,7 +8,7 @@
         </div>
     </div>
 {% else %}
-    <div id="{{ value.random_element_id }}"></div>
+    <div data-mf-file-id="{{value.file_id}}" id="{{ value.random_element_id }}"></div>
     <script>
     
     if(!document.querySelector('link[href="https://mfstatic.com/css/mediaflowplayer.min.css"]')) {

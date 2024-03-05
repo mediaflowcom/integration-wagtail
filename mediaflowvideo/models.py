@@ -26,18 +26,12 @@ class MFVideoblockValue(StructValue):
         self.element_id = get_random_string(length=10,allowed_chars='abcdefghijklmnopqrstuvwxyz')              
         super().__init__(self,*args)
 
-    # should cache?       
-    def get_poster(self):               
-        r = requests.get('https://m.mediaflow.com/json/' + self.get("media_id"), headers={'Accept': 'application/json'})
-        print("resp", r.json()["poster"])
-        return r.json()["poster"]
+   
+    @cached_property
+    def get_video_data(self):               
+        r = requests.get('https://m.mediaflow.com/json/' + self.get("media_id"), headers={'Accept': 'application/json'})        
+        return r.json()
 
-    # should cache?       
-    def get_title(self):               
-        r = requests.get('https://m.mediaflow.com/json/' + self.get("media_id"), headers={'Accept': 'application/json'})
-        print("resp", r.json()["poster"])
-        return r.json()["title"]
-    
     @property    
     def random_element_id(self):               
         return self.element_id
@@ -56,13 +50,20 @@ class MFVideoblockValue(StructValue):
             return "//play.mediaflowpro.com/ovp/11/" + m_id + "?" + s_param[:-1]
 
     @property    
-    def name(self):               
-        return self.get_title()
+    def name(self):
+        try:               
+            title = (self.get_video_data)["title"]
+        except:
+            title = ""
+        return title
     
     @property    
     def poster(self):
-        print("getting poster")               
-        return self.get_poster()
+        try:               
+            p = (self.get_video_data)["poster"]
+        except:
+            p = "https://assets.mediaflowpro.com/a/ee80c59d46c348ff4bb07b8294d5fad4/poster.jpg"
+        return p
 
 
 class MfVideoBlock(StructBlock):
