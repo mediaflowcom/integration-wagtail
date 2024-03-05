@@ -32,8 +32,11 @@ def after_publish_page(request, page):
             if s > 0:
                 begin = s+17
                 end = begin + val[begin:].index('"')
-                print("found", val[begin:end])
-                # here is you fileId to report usage on
+                id_image = val[begin:end]
+                print("found", id_image)
+                # here is your id_Image to report usage on
+                # get the server key from MFVideoAppConfig to gain an api token and perform ajax request to register usage                 
+                # this is for videoblocks only.. look into how we can check for image updates in the rich text editor..
 
 
         
