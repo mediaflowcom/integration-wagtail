@@ -16,16 +16,23 @@ class VideoSource extends window.React.Component {
 
     var listener = window.addEventListener('mf-video-selected', (e)=>  {
         const content = editorState.getCurrentContent();
-        const selection = editorState.getSelection();    
+        const selection = editorState.getSelection();  
+        console.log(e.detail);
         const contentWithEntity = content.createEntity(
             entityType.type,
             'IMMUTABLE',
-            e.detail
+            {
+                mediaId: e.detail.mediaId || '', 
+                embedMethod: e.detail.embedMethod || 'iframe',
+                autoPlay: e.detail.autoPlay ? '1' : '0',
+                startOffset: e.detail.startOffset || 0
+            }
+
             );
             const entityKey = contentWithEntity.getLastCreatedEntityKey();
         
             // We also add some text for the entity to be activated on.
-            const text = `MEDIAFLOWVIDEO`;
+            const text = `MEDIAFLOWVIDEO: ${e.detail.mediaId}`;
         
             const newContent = window.DraftJS.Modifier.replaceText(
                 content,
