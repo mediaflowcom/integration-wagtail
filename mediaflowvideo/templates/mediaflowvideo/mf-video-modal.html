@@ -35,6 +35,16 @@
         $('#{{ trigger }}-start_offset').val(selectedData.startOffset);
         // force thumbnail update on parent form
         $('#{{ trigger }}-media_id').trigger('input'); 
+        console.log('dispatching select event..');
+        window.dispatchEvent(new CustomEvent('mf-video-selected', { 
+          detail: {
+            mediaId: selectedData.mediaId,
+            embedMethod: selectedData.embedMethod,
+            //startOffset: selectedData.startOffset,
+            //autoPlay: selectedData.autoPlay
+
+          }
+        }));
       });
         
       $('#{{ trigger }}-mf-options input, #{{ trigger }}-mf-options select').on('change', function(ev) {        

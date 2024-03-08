@@ -1,10 +1,12 @@
 from .views import mfvideo_modal
+from .draftail import VideoEntityElementHandler, video_entity_decorator
 from django.urls import path
 from wagtail import hooks
 from django.utils.html import format_html
 from .models import MFVideoAppConfig
 import requests
-
+import wagtail.admin.rich_text.editors.draftail.features as draftail_features
+from wagtail.admin.rich_text.converters.html_to_contentstate import BlockElementHandler
 @hooks.register('register_admin_urls')
 def register_mfvideo_urls():    
     return [
@@ -49,4 +51,60 @@ def after_publish_page(request, page):
 
 
 
+
+@hooks.register('register_rich_text_features')
+def register_help_text_feature(features):
+    """
+    Registering the `mf-video` feature, which uses the `mf-video` Draft.js block type,
+    and is stored as HTML with a `<div class="mf-video">` tag.
+    """
+    feature_name = 'mf-video'
+    type_ = 'mf-video'
+
+    control = {
+        'type': type_,
+        'icon': 'media',
+        'description': 'Mediaflow Video',
+        # Optionally, we can tell Draftail what element to use when displaying those blocks in the editor.
+        'element': 'div',
+    }
+
+    features.register_editor_plugin(
+        'draftail', feature_name, draftail_features.BlockFeature(control, css={'all': ['mf-video.css']}, js=['js/draftail-videoblock.js'])
+    )
+
+    features.register_converter_rule('contentstate', feature_name, {
+        'from_database_format': {'iframe[class=mf-video]': BlockElementHandler(type_)},
+        'to_database_format': {'block_map': {type_: {'element': 'iframe', 'props': {'class': 'mf-video'}}}},
+    })
+
         
+@hooks.register('register_rich_text_features')
+def register_video_feature(features):
+    features.default_features.append('mf-video')
+    """
+    Registering the `stock` feature, which uses the `STOCK` Draft.js entity type,
+    and is stored as HTML with a `<span data-stock>` tag.
+    """
+    feature_name = 'mf-video'
+    type_ = 'MF_VIDEO'
+
+    control = {
+        'type': type_,
+        'label': '$',
+        'description': 'Mediaflow video',
+    }
+
+    features.register_editor_plugin(
+        'draftail', feature_name, draftail_features.EntityFeature(
+            control,
+            js=['js/draftail-videoblock.js'],
+            css={'all': ['css/stock.css']}
+        )
+    )
+
+    features.register_converter_rule('contentstate', feature_name, {
+        # Note here that the conversion is more complicated than for blocks and inline styles.
+        'from_database_format': {'span[data-stock]': VideoEntityElementHandler(type_)},
+        'to_database_format': {'entity_decorators': {type_: video_entity_decorator}},
+    })
