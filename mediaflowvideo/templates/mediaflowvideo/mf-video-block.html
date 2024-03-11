@@ -10,6 +10,8 @@
     <div data-mf-file-id="{{value.file_id}}" id="{{ value.random_element_id }}"></div>
     <script>
     
+     var opts = {env:"production", autoPlay: "{{value.autoplay}}" == "True", startAt: {{value.start_offset}} };
+
     if(!document.querySelector('link[href="https://mfstatic.com/css/mediaflowplayer.min.css"]')) {
         const lel =document.createElement('link');
         lel.setAttribute('rel','stylesheet');
@@ -22,10 +24,10 @@
         sel.setAttribute('crossorigin','anonymous');
         document.body.appendChild(sel);
         sel.onload=function(){
-            new MFPlayer('#{{value.random_element_id}}','{{ value.media_id }}', {"env":"production"}); 
+            new MFPlayer('#{{value.random_element_id}}','{{ value.media_id }}', opts); 
         };
         sel.src='https://mfstatic.com/js/mediaflowplayer.min.js';
     } else {
-        new MFPlayer('#{{value.random_element_id}}','{{ value.media_id }}', {"env":"production"}); }
+        new MFPlayer('#{{value.random_element_id}}','{{ value.media_id }}', opts); }
     </script>
 {% endif %}

@@ -5,10 +5,9 @@ class VideoSource extends window.React.Component {
     ModalWorkflow({                    
         url: '/admin/mfvideomodal/?trigger=' + 'draftail'
     });
-    console.log('mounted');
     const { editorState, entityType, onComplete } = this.props;
 
-    console.log('continuing');
+
     
     
     // const content = editorState.getCurrentContent();
