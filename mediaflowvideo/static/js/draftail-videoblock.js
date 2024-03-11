@@ -11,6 +11,9 @@ class VideoSource extends window.React.Component {
     console.log('continuing');
     
     
+    // const content = editorState.getCurrentContent();
+    // const entity = content.getEntity()
+
     // Uses the Draft.js API to create a new entity with the right data.
    
 
@@ -20,7 +23,7 @@ class VideoSource extends window.React.Component {
         console.log(e.detail);
         const contentWithEntity = content.createEntity(
             entityType.type,
-            'IMMUTABLE',
+            'MUTABLE',
             {
                 mediaId: e.detail.mediaId || '', 
                 embedMethod: e.detail.embedMethod || 'iframe',
@@ -30,23 +33,23 @@ class VideoSource extends window.React.Component {
 
             );
             const entityKey = contentWithEntity.getLastCreatedEntityKey();
-        
-            // We also add some text for the entity to be activated on.
-            const text = `MEDIAFLOWVIDEO: ${e.detail.mediaId}`;
-        
+            var text = e.detail.mediaId;
             const newContent = window.DraftJS.Modifier.replaceText(
                 content,
                 selection,
                 text,
                 null,
                 entityKey,
-            );
-            const nextState = window.DraftJS.EditorState.push(
+              );
+              const nextState = window.DraftJS.EditorState.push(
                 editorState,
                 newContent,
                 'insert-characters',
-            );
-            onComplete(nextState);
+              );
+
+            
+              onComplete(nextState)
+            
     });
     onComplete(editorState);
     

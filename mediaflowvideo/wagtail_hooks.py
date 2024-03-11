@@ -105,6 +105,6 @@ def register_video_feature(features):
 
     features.register_converter_rule('contentstate', feature_name, {
         # Note here that the conversion is more complicated than for blocks and inline styles.
-        'from_database_format': {'span[data-stock]': VideoEntityElementHandler(type_)},
+        'from_database_format': {'iframe[class=mf-video]': VideoEntityElementHandler(type_)},
         'to_database_format': {'entity_decorators': {type_: video_entity_decorator}},
     })

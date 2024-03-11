@@ -4,7 +4,7 @@ from wagtail.admin.rich_text.converters.html_to_contentstate import InlineEntity
 def video_entity_decorator(props):
     """
     Draft.js ContentState to database HTML.
-    Converts the video entities into a span tag.
+    Converts the video entities into an iframe tag.
     """
 
     s_param = ""
@@ -20,8 +20,9 @@ def video_entity_decorator(props):
         src = "//play.mediaflowpro.com/ovp/11/" + m_id + "?" + s_param[:-1]
     if props['embedMethod'] == 'iframe':
         return DOM.create_element('iframe', {        
+            'class': 'mf-video',
             'src': src,        
-            'data-media-id': props['mediaId'],
+            'data-mediaid': props['mediaId'],
             'data-embed-method': props['embedMethod'],
             'data-auto-play': props['autoPlay'],
             'data-start-offset': props['startOffset']
@@ -29,7 +30,7 @@ def video_entity_decorator(props):
     
     # it is possible to return an element with children, as in <div> <srcipt> etc.. look into that!
     return DOM.create_element('div', {        
-            'data-media-id': props['mediaId'],
+            'data-mediaid': props['mediaId'],
             'data-embed-method': props['embedMethod'],
             'data-auto-play': props['autoPlay'],
             'data-start-offset': props['startOffset']
@@ -40,7 +41,8 @@ class VideoEntityElementHandler(InlineEntityElementHandler):
     mutability = 'IMMUTABLE'
 
     def get_attribute_data(self, attrs):       
-        return { 'mediaId': attrs['data-media-id'],
+        print(attrs)
+        return { 'mediaId': attrs['data-mediaid'],
                  'embedMethod': attrs['data-embed-method'],                 
                  'autoPlay': attrs['data-auto-play'],                 
                  'startOffset': attrs['data-start-offset'],                 
