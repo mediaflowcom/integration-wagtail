@@ -98,7 +98,7 @@ def register_video_feature(features):
     features.register_editor_plugin(
         'draftail', feature_name, draftail_features.EntityFeature(
             control,
-            js=['js/draftail-videoblock.js'],
+            js=['js/draftail-videoentity.js'],
             css={'all': ['css/stock.css']}
         )
     )

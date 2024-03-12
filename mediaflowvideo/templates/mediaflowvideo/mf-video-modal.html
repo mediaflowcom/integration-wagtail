@@ -38,6 +38,7 @@
         console.log('dispatching select event..');
         window.dispatchEvent(new CustomEvent('mf-video-selected', { 
           detail: {
+            trigger: '{{ trigger }}',
             mediaId: selectedData.mediaId,
             embedMethod: selectedData.embedMethod,
             startOffset: selectedData.startOffset,
@@ -104,7 +105,7 @@
   <div class="nice-padding" id="{{ trigger }}-mf-options">
     
     <div class="w-field light">
-      <label class="w-field__label">Select a video</label>
+      <label class="w-field__label">Select a video {{ trigger }} </label>
       <div class="w-field__wrapper" style="max-width:none" data-field-wrapper="">
         <div class="panel-body" id="mf-fileselector" style="height: 500px;position: relative">          
         </div>
