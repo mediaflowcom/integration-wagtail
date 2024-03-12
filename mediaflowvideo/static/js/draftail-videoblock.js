@@ -64,12 +64,17 @@ const Video = (props) => {
     const data = contentState.getEntity(entityKey).getData();    
       
     return window.React.createElement(
-      'iframe',
+      'div',
       {
-        style: {width:'320px', height:'200px'},
-        src: `https://play.mediaflowpro.com/ovp/11/${data.mediaId}`,       
+        class: 'mf-video',       
       },
-      props.children,
+      window.React.createElement(
+        'iframe',
+        {
+          style: {width:'320px', height:'200px'},
+          src: `https://play.mediaflowpro.com/ovp/11/${data.mediaId}`,       
+        },
+        props.children)
     );
   };
 

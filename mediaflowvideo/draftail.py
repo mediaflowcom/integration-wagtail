@@ -20,14 +20,13 @@ def video_entity_decorator(props):
     else:
         src = "//play.mediaflowpro.com/ovp/11/" + m_id + "?" + s_param[:-1]
    
-    return DOM.create_element('iframe', {
-        'class': 'mf-video',
-        'src': src,        
+    return DOM.create_element('div', {
+        'class': 'mf-video',        
         'data-mediaid': props['mediaId'],
         'data-embed-method': props['embedMethod'],
         'data-auto-play': props['autoPlay'],
         'data-start-offset': props['startOffset']
-    }, props['children'])
+    }, DOM.create_element('iframe', {'src': src, }, props['children']))
 class VideoEntityElementHandler(InlineEntityElementHandler):    
     mutability = 'MUTABLE'
 
