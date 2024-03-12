@@ -12,14 +12,14 @@
     
      var opts = {env:"production", autoPlay: "{{value.autoplay}}" == "True", startAt: {{value.start_offset}} };
 
-    if(!document.querySelector('link[href="https://mfstatic.com/css/mediaflowplayer.min.css"]')) {
+    if (!document.querySelector('link[href="https://mfstatic.com/css/mediaflowplayer.min.css"]')) {
         const lel =document.createElement('link');
         lel.setAttribute('rel','stylesheet');
         lel.setAttribute('type','text/css');
         lel.setAttribute('href','https://mfstatic.com/css/mediaflowplayer.min.css');
         document.getElementsByTagName('head')[0].appendChild(lel);
     }
-    if(typeof(MFPlayer)=='undefined') {
+    if (typeof(MFPlayer)=='undefined') {
         const sel = document.createElement('script');
         sel.setAttribute('crossorigin','anonymous');
         document.body.appendChild(sel);

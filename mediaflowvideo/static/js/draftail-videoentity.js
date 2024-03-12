@@ -11,7 +11,7 @@ class VideoSource extends window.React.Component {
 
     // Uses the Draft.js API to create a new entity with the right data.
 
-    var listener = window.addEventListener('mf-video-selected', (e) => {
+    window.addEventListener('mf-video-selected', (e) => {
       if (e.detail.trigger == dialogOwnerRef) {
         window.jQuery
           .ajax({

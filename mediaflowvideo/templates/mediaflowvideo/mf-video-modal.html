@@ -27,15 +27,17 @@
       
       $('#mf-insert').on('click', function() {        
         // update the parent form (hidden form fields)
-        $('#{{ trigger }}-media_id').val(selectedData.mediaId);
-        $('#{{ trigger }}-folder_id').val(selectedData.folderId);
-        $('#{{ trigger }}-file_id').val(selectedData.fileId);
-        $('#{{ trigger }}-autoplay').prop('checked', selectedData.autoPlay);
-        $('#{{ trigger }}-embed_method').val(selectedData.embedMethod);
-        $('#{{ trigger }}-start_offset').val(selectedData.startOffset);
-        // force thumbnail update on parent form
-        $('#{{ trigger }}-media_id').trigger('input'); 
-        console.log('dispatching select event..', selectedData.embedMethod);
+        if(! '{{ trigger }}'.startsWith('draftail')) {
+          $('#{{ trigger }}-media_id').val(selectedData.mediaId);
+          $('#{{ trigger }}-folder_id').val(selectedData.folderId);
+          $('#{{ trigger }}-file_id').val(selectedData.fileId);
+          $('#{{ trigger }}-autoplay').prop('checked', selectedData.autoPlay);
+          $('#{{ trigger }}-embed_method').val(selectedData.embedMethod);
+          $('#{{ trigger }}-start_offset').val(selectedData.startOffset);
+          // force thumbnail update on parent form
+          $('#{{ trigger }}-media_id').trigger('input'); 
+        }
+        
         window.dispatchEvent(new CustomEvent('mf-video-selected', { 
           detail: {
             trigger: '{{ trigger }}',
