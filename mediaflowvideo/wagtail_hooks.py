@@ -91,7 +91,7 @@ def register_video_feature(features):
 
     control = {
         'type': type_,
-        'label': '$',
+        'icon': 'media',
         'description': 'Mediaflow video',
     }
 
