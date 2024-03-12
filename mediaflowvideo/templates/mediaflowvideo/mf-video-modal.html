@@ -19,7 +19,7 @@
         autoPlay : $('#{{ trigger }}-autoplay').is(':checked'),
         embedMethod : $('#{{ trigger }}-embed_method').val(),
         startOffset : $('#{{ trigger }}-start_offset').val(),
-      }
+      }      
       $('#mf-embed_method').val(selectedData.embedMethod);
       $('#mf-start_offset').val(selectedData.startOffset);
       $('#mf-autoplay').prop('checked', selectedData.autoPlay);
@@ -35,7 +35,7 @@
         $('#{{ trigger }}-start_offset').val(selectedData.startOffset);
         // force thumbnail update on parent form
         $('#{{ trigger }}-media_id').trigger('input'); 
-        console.log('dispatching select event..');
+        console.log('dispatching select event..', selectedData.embedMethod);
         window.dispatchEvent(new CustomEvent('mf-video-selected', { 
           detail: {
             trigger: '{{ trigger }}',
@@ -47,6 +47,7 @@
           }
         }));
       });
+      console.log($('#{{ trigger }}-mf-options input').length);
         
       $('#{{ trigger }}-mf-options input, #{{ trigger }}-mf-options select').on('change', function(ev) {        
         console.log('CHANGE!!');

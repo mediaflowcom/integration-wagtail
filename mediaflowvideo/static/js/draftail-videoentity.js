@@ -1,6 +1,6 @@
 class VideoSource extends window.React.Component {
   componentDidMount() {
-    var dialogOwnerRef = 'draftail' + Math.random()
+    var dialogOwnerRef = 'draftail' + Math.random().toString().substring(3)
     ModalWorkflow({
       url: '/admin/mfvideomodal/?trigger=' + dialogOwnerRef,
     })
@@ -13,33 +13,41 @@ class VideoSource extends window.React.Component {
 
     var listener = window.addEventListener('mf-video-selected', (e) => {
       if (e.detail.trigger == dialogOwnerRef) {
-        const content = editorState.getCurrentContent()
-        const selection = editorState.getSelection()
-        const contentWithEntity = content.createEntity(
-          entityType.type,
-          'MUTABLE',
-          {
-            mediaId: e.detail.mediaId || '',
-            embedMethod: e.detail.embedMethod || 'iframe',
-            autoPlay: e.detail.autoPlay ? '1' : '0',
-            startOffset: e.detail.startOffset || 0,
-          },
-        )
-        const entityKey = contentWithEntity.getLastCreatedEntityKey()
-        var text = e.detail.mediaId
-        const newContent = window.DraftJS.Modifier.replaceText(
-          content,
-          selection,
-          text,
-          null,
-          entityKey,
-        )
-        const nextState = window.DraftJS.EditorState.push(
-          editorState,
-          newContent,
-          'insert-characters',
-        )
-        onComplete(nextState)
+        window.jQuery
+          .ajax({
+            type: 'GET',
+            url: `https://m.mediaflow.com/json/${e.detail.mediaId}`,
+          })
+          .done((data) => {
+            const content = editorState.getCurrentContent()
+            const selection = editorState.getSelection()
+            const contentWithEntity = content.createEntity(
+              entityType.type,
+              'MUTABLE',
+              {
+                mediaId: e.detail.mediaId || '',
+                embedMethod: e.detail.embedMethod || 'iframe',
+                autoPlay: e.detail.autoPlay ? '1' : '0',
+                startOffset: e.detail.startOffset || 0,
+                poster: data.poster
+              },
+            )
+            const entityKey = contentWithEntity.getLastCreatedEntityKey()
+            var text = e.detail.mediaId
+            const newContent = window.DraftJS.Modifier.replaceText(
+              content,
+              selection,
+              text,
+              null,
+              entityKey,
+            )
+            const nextState = window.DraftJS.EditorState.push(
+              editorState,
+              newContent,
+              'insert-characters',
+            )
+            onComplete(nextState)
+          })
       }
     })
     onComplete(editorState)
@@ -54,19 +62,40 @@ const Video = (props) => {
   const { entityKey, contentState } = props
   const data = contentState.getEntity(entityKey).getData()
 
+  if (data.embedMethod == 'iframe') {
+    return window.React.createElement(
+      'div',
+      {
+        class: 'mf-video',
+        'style': {backgroundImage: `url(${data.poster})`, width:'160px', height:'90px'},
+        'data-mediaid': data.mediaId,
+        'data-autoplay': data.autoPlay,
+        'data-start-offset': data.startOffset,
+        'data-embed-method': data.embedMethod,
+        'data-poster': data.poster
+      },
+      window.React.createElement(
+        'iframe',
+        {          
+          src: `https://play.mediaflowpro.com/ovp/11/${data.mediaId}`,
+        },
+        props.children,
+      ),
+    )
+  }
+
   return window.React.createElement(
     'div',
     {
       class: 'mf-video',
+      'style': {backgroundImage: `url(${data.poster})`, width:'160px', height:'90px'},
+      'data-mediaid': data.mediaId,
+      'data-autoplay': data.autoPlay,
+      'data-start-offset': data.startOffset,
+      'data-embed-method': data.embedMethod,
+      'data-poster': data.poster
     },
-    window.React.createElement(
-      'iframe',
-      {
-        style: { width: '320px', height: '200px' },
-        src: `https://play.mediaflowpro.com/ovp/11/${data.mediaId}`,
-      },
-      props.children,
-    ),
+    window.React.createElement('div', {}, props.children),
   )
 }
 

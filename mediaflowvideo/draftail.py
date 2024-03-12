@@ -20,13 +20,27 @@ def video_entity_decorator(props):
     else:
         src = "//play.mediaflowpro.com/ovp/11/" + m_id + "?" + s_param[:-1]
    
+    if props['embedMethod'] == 'iframe':
+        return DOM.create_element('div', {
+            'id': get_random_string(length=10,allowed_chars='abcdefghijklmnopqrstuvwxyz'),
+            'style': 'background-image: url(' + props["poster"] + ')',
+            'class': 'mf-video',        
+            'data-mediaid': props['mediaId'],
+            'data-embed-method': props['embedMethod'],
+            'data-autoplay': props['autoPlay'],
+            'data-start-offset': props['startOffset'],
+            'data-poster': props['poster']
+        }, DOM.create_element('iframe', {'src': src, }, props['children']))
     return DOM.create_element('div', {
+        'id': get_random_string(length=10,allowed_chars='abcdefghijklmnopqrstuvwxyz'),
+        'style': 'background-image: url(' + props["poster"] + ')',
         'class': 'mf-video',        
         'data-mediaid': props['mediaId'],
         'data-embed-method': props['embedMethod'],
-        'data-auto-play': props['autoPlay'],
-        'data-start-offset': props['startOffset']
-    }, DOM.create_element('iframe', {'src': src, }, props['children']))
+        'data-autoplay': props['autoPlay'],
+        'data-start-offset': props['startOffset'],
+        'data-poster': props['poster']
+    }, DOM.create_element('script', {'src': 'static/js/mf-embed-js.js' }, props['children']))
 class VideoEntityElementHandler(InlineEntityElementHandler):    
     mutability = 'MUTABLE'
 
@@ -34,6 +48,7 @@ class VideoEntityElementHandler(InlineEntityElementHandler):
         print('attrs', attrs)
         return { 'mediaId': attrs['data-mediaid'],
                  'embedMethod': attrs['data-embed-method'],                 
-                 'autoPlay': attrs['data-auto-play'],                 
-                 'startOffset': attrs['data-start-offset'],                 
+                 'autoPlay': attrs['data-autoplay'],                 
+                 'startOffset': attrs['data-start-offset'],
+                 'poster': attrs['data-poster']
                }
