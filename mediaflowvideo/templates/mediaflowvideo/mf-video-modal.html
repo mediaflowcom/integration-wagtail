@@ -20,9 +20,16 @@
         embedMethod : $('#{{ trigger }}-embed_method').val(),
         startOffset : $('#{{ trigger }}-start_offset').val(),
       }      
+      if('{{ trigger }}'.startsWith('draftail')) {
+        selectedData.embedMethod = 'js';
+        selectedData.autoPlay = false;
+        selectedData.startOffset = 0;
+      }
+      
       $('#mf-embed_method').val(selectedData.embedMethod);
       $('#mf-start_offset').val(selectedData.startOffset);
       $('#mf-autoplay').prop('checked', selectedData.autoPlay);
+      
     
       
       $('#mf-insert').on('click', function() {        
