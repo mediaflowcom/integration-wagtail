@@ -21,19 +21,21 @@ class VideoSource extends window.React.Component {
           .done((data) => {
             const content = editorState.getCurrentContent()
             const selection = editorState.getSelection()
+            const method = e.detail.embedMethod || 'iframe';
             const contentWithEntity = content.createEntity(
               entityType.type,
               'MUTABLE',
               {
                 mediaId: e.detail.mediaId || '',
-                embedMethod: e.detail.embedMethod || 'iframe',
+                embedMethod: method,
                 autoPlay: e.detail.autoPlay ? '1' : '0',
                 startOffset: e.detail.startOffset || 0,
                 poster: data.poster
               },
             )
             const entityKey = contentWithEntity.getLastCreatedEntityKey()
-            var text = e.detail.mediaId
+            var text = data.title + " (" + method + " embed)";
+            console.log(data);
             const newContent = window.DraftJS.Modifier.replaceText(
               content,
               selection,
@@ -61,7 +63,7 @@ class VideoSource extends window.React.Component {
 const Video = (props) => {
   const { entityKey, contentState } = props
   const data = contentState.getEntity(entityKey).getData()
-
+/*
   if (data.embedMethod == 'iframe') {
     return window.React.createElement(
       'div',
@@ -83,12 +85,12 @@ const Video = (props) => {
       ),
     )
   }
-
+*/
   return window.React.createElement(
     'div',
     {
       class: 'mf-video',
-      'style': {backgroundImage: `url(${data.poster})`, width:'160px', height:'90px'},
+      'style': {backgroundImage: `url(${data.poster})`, width:'320px', height:'180px'},
       'data-mediaid': data.mediaId,
       'data-autoplay': data.autoPlay,
       'data-start-offset': data.startOffset,

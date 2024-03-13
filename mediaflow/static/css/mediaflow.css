@@ -1,0 +1,10 @@
+div.mf-video {
+    aspect-ratio: 16/9;
+    width:100%;
+  }
+
+  div.mf-video iframe {
+    border:0;
+    width:100%;
+    aspect-ratio:16/9;
+  }

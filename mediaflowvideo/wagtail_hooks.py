@@ -81,11 +81,7 @@ def register_help_text_feature(features):
         
 @hooks.register('register_rich_text_features')
 def register_video_feature(features):
-    features.default_features.append('mf-video')
-    """
-    Registering the `stock` feature, which uses the `STOCK` Draft.js entity type,
-    and is stored as HTML with a `<span data-stock>` tag.
-    """
+    features.default_features.append('mf-video')  
     feature_name = 'mf-video'
     type_ = 'MF_VIDEO'
 
@@ -99,7 +95,7 @@ def register_video_feature(features):
         'draftail', feature_name, draftail_features.EntityFeature(
             control,
             js=['js/draftail-videoentity.js'],
-            css={'all': ['css/stock.css']}
+            css={'all': ['css/draftail-videoentity.css']}
         )
     )
 

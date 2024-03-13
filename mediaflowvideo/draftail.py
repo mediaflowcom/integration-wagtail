@@ -23,17 +23,17 @@ def video_entity_decorator(props):
     if props['embedMethod'] == 'iframe':
         return DOM.create_element('div', {
             'id': get_random_string(length=10,allowed_chars='abcdefghijklmnopqrstuvwxyz'),
-            'style': 'background-image: url(' + props["poster"] + ')',
+            'style': 'background-image: url(' + props["poster"] + ');',
             'class': 'mf-video',        
             'data-mediaid': props['mediaId'],
             'data-embed-method': props['embedMethod'],
             'data-autoplay': props['autoPlay'],
             'data-start-offset': props['startOffset'],
             'data-poster': props['poster']
-        }, DOM.create_element('iframe', {'src': src, }, props['children']))
+        }, DOM.create_element('iframe', {'src': src}, props['children']))
     return DOM.create_element('div', {
         'id': get_random_string(length=10,allowed_chars='abcdefghijklmnopqrstuvwxyz'),
-        'style': 'background-image: url(' + props["poster"] + ')',
+        'style': 'background-image: url(' + props["poster"] + ');',
         'class': 'mf-video',        
         'data-mediaid': props['mediaId'],
         'data-embed-method': props['embedMethod'],
