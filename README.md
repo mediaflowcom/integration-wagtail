@@ -96,7 +96,7 @@ Following the tutorial here: https://docs.wagtail.org/en/stable/getting_started/
   
 ## Log into the admin interface
     http://localhost:8000/admin
-  There you should now have two new menu items under SETTINGS: '**Mf image app config**' and '**Mf video app config**'. Enter a valid server key (server id is not currently used so it does not matter what you enter here at the moment). The server key is the 10 digits long string consisting of uppercase letters and numbers. You may use an existing server key for another CMS, such as Sitevision or Drupal for testing purposes. A ser
+  There you should now have two new menu items under the Settings tab: '**Mf image app config**' and '**Mf video app config**'. Enter a valid server key (server id is not currently used so it does not matter what you enter here at the moment). The server key is the 10 digits long string consisting of uppercase letters and numbers. You may use an existing server key for another CMS, such as Sitevision or Drupal for testing purposes.
 
 Now you can try editing the startpage or creating new pages. The "Home Page" page type has a Rich Text field for testing image/video embeds into Draftail, and a StreamField block that can contain any amount of Image blocks and Video blocks.
 
