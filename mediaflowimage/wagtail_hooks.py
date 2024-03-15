@@ -18,11 +18,3 @@ def fileselector_js():
             </script>
             """
         )
-
-
-@hooks.register('construct_image_chooser_queryset')
-def show_my_uploaded_images_only(images, request):
-    # Only show uploaded images
-    images = images.filter(uploaded_by_user=request.user)
-
-    return images
