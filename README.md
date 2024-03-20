@@ -107,3 +107,7 @@ Now you can try editing the startpage or creating new pages. The "Home Page" pag
 or
 
     mysite\env\Scripts\deactivate
+
+## Useful references
+* https://www.notion.so/mediaflowcom/Technical-Integration-Guide-22c2d7a206304071840d89666ec42e0c
+* https://www.notion.so/mediaflowcom/Standard-API-Integration-for-CMS-and-other-platforms-obs-flyttat-till-k-b-8e57fe80c1e04fd99362c3a799ef0365
