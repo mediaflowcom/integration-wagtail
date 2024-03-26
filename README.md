@@ -50,7 +50,11 @@ If mysite\env\Scripts\activate.bat doesn't work, run:
 
     WAGTAILIMAGES_IMAGE_FORM_BASE = 'mediaflowimage.forms.MfImageForm'
 
- 
+- Add the following two lines, this is the default API Client for Wagtail (should not be editable in the Admin UI):
+  
+    MEDIAFLOW_CLIENT_SECRET = "F5akred2NDmJeTv6f46j8fvZ0gHert"
+    MEDIAFLOW_CLIENT_ID = "6v9Sf1wf"
+  
 ## Create a demo page with images and video
 
 Following the tutorial here: https://docs.wagtail.org/en/stable/getting_started/tutorial.html#extend-the-homepage-model but instead change the contents of home/models.py to:
