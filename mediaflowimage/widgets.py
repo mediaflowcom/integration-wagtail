@@ -1,4 +1,5 @@
 from django.forms import FileInput
+from django.conf import settings
 
 from mediaflowimage.models import MFImageAppConfig
 
@@ -11,6 +12,8 @@ class MedialowFileInput(FileInput):
         appSettings = MFImageAppConfig.load()
         context = super(FileInput, self).get_context(name, value, attrs)
         context.update({'server_key': appSettings.server_key })
+        context.update({'client_id': getattr(settings, "MEDIAFLOW_CLIENT_ID", "") })
+        context.update({'client_secret': getattr(settings, "MEDIAFLOW_CLIENT_SECRET", "") })
         return context
 
     class Media:       
