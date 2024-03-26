@@ -66,6 +66,26 @@
         selectedData.autoPlay = $('#mf-autoplay').is(':checked');
       });
           
+      let locale = '{{ locale }}';
+      switch(locale) {
+        case 'en':
+          locale = 'en_US';
+          break;
+          case 'no':
+          case 'nb':
+          locale = 'nb_NO';
+          break;
+          case 'fi':
+          locale = 'fi_FI';
+          break;
+          case 'sv':
+          locale = 'sv_SE';
+          break;
+          case 'de':
+          locale = 'de_DE';
+          break;
+      }
+      
       myFileSelector = new FileSelector('mf-fileselector', {
         auth: 'token',
         client_id: '{{ client_id }}',
@@ -80,6 +100,7 @@
         downloadFormat: 'original',
         selectedFile: selectedData.fileId,
         selectedFolder: selectedData.folderId,
+        locale: locale,
                 
         success: function(o) {
           
@@ -115,7 +136,7 @@
   <div class="nice-padding" id="{{ trigger }}-mf-options">
     
     <div class="w-field light">
-      <label class="w-field__label">Select a video {{ trigger }} </label>
+      <label class="w-field__label">Select a video</label>
       <div class="w-field__wrapper" style="max-width:none" data-field-wrapper="">
         <div class="panel-body" id="mf-fileselector" style="height: 500px;position: relative">          
         </div>
