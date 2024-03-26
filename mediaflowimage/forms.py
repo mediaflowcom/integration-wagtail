@@ -10,5 +10,5 @@ class MfImageForm(BaseImageForm, CreationFormMixin):
         # Override the widget for the 'file' field
         # so that we can inject our own behaviour
         widgets = {
-            "file":  MedialowFileInput()
+            "mediaflow_id":  MedialowFileInput()
         }

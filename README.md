@@ -46,6 +46,10 @@ If mysite\env\Scripts\activate.bat doesn't work, run:
       	}
       }
 
+- Tell Wagtail to use our custom image model (Create the variable if it does not exist in base.py)
+
+    WAGTAILIMAGES_IMAGE_MODEL = 'mediaflowimage.MfImage'
+
 - Tell Wagtail to use our custom image form (Create the variable if it does not exist in base.py)
 
     WAGTAILIMAGES_IMAGE_FORM_BASE = 'mediaflowimage.forms.MfImageForm'

@@ -8,20 +8,53 @@ $(document).ready(function () {
     return
   }
 
-  function uploadAndUse(imageFile, title) {
+  function getFileInfo(data, fileData) {
+    const server_key = $('#mf-server-key').val();
+    const client_id = $('#mf-client-id').val();
+    const client_secret = $('#mf-client-secret').val();
+
+    $.ajax({
+      contentType: false,
+      processData: false,
+      type: 'GET',
+      url: `https://api.mediaflow.com/1/oauth2/token?client_id=${client_id}&client_secret=${client_secret}&grant_type=refresh_token&refresh_token=${server_key}`
+    }).done(function (tokenData) {      
+      $.ajax({
+        beforeSend: function (request) {
+          request.setRequestHeader('Authorization', `Bearer ${tokenData.access_token}`)
+        },
+        contentType: false,
+        processData: false,
+        type: 'GET',
+        url: `https://api.mediaflow.com/1/file/${data.id}?fields=id,filename,name,photographer,description&access_token=${tokenData.access_token}`
+      }).done(function (metaData) {      
+        console.log('metaData', metaData)
+        if(metaData && metaData.length == 1) {
+           uploadAndUse(new File([fileData], metaData[0].filename), metaData[0])
+        } else {
+          alert('A communication error occurred')
+        }
+        
+      })
+      
+    })
+
+  }
+
+  function uploadAndUse(imageFile, metaData) {
     let formData = new FormData()
     let csrfToken = $('[name=csrfmiddlewaretoken]').val()
     let collectionId = 1
     let chooserParts = window.mfImageModal.url.split('?')
     let createUrl = chooserParts[0] + 'create/'
-    if (chooserParts.length > 0) {
+    if (chooserParts.length > 1) {
       createUrl += '?' + chooserParts[1]
     }
 
     if ($('#id_image-chooser-upload-collection').length) {
       collectionId = $('#id_image-chooser-upload-collection').val()
     }
-    formData.append('image-chooser-upload-title', title)
+    formData.append('image-chooser-upload-title', metaData.name)
     formData.append('image-chooser-upload-collection', collectionId)
     formData.append('image-chooser-upload-file', imageFile)
     formData.append('image-chooser-upload-tags', '')
@@ -29,7 +62,9 @@ $(document).ready(function () {
     formData.append('image-chooser-upload-focal_point_y', '')
     formData.append('image-chooser-upload-focal_point_width', '')
     formData.append('image-chooser-upload-focal_point_height', '')
-
+    formData.append('image-chooser-upload-mediaflow_id', metaData.id)
+    formData.append('image-chooser-upload-photographer', metaData.photographer)
+    formData.append('image-chooser-upload-description', metaData.description)
     $.ajax({
       beforeSend: function (request) {
         request.setRequestHeader('X-CSRFToken', csrfToken)
@@ -39,7 +74,7 @@ $(document).ready(function () {
       processData: false,
       type: 'POST',
       url: createUrl,
-    }).done(function (data) {
+    }).done(function (data) {      
       $('#tab-label-upload')[0].click()
       // This will 'magically' move the modalWorkflow along...
       window.mfImageModal.loadResponseText(JSON.stringify(data))
@@ -57,7 +92,8 @@ $(document).ready(function () {
       },
       success: function (binaryData) {
         // TODO: How come we don't get the full filename with extension from fileselector?
-        uploadAndUse(new File([binaryData], data.filename), data.name)
+        getFileInfo(data, binaryData)
+        
       },
       error: function (e) {
         console.error(e)
